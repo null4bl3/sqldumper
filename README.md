@@ -40,25 +40,28 @@ The config file should contain the following parameters:
   "CRON": ""
 }
 ```
-*"MAILFROM" is in the form of an email string value*
 
 **PROJECT** - The project name. Used for file naming.
 
 **DATABASE.DB** - The database to create a dump from
 
 **DATABASE.USER** - The database user
+
 **DATABASE.PASS** - The database password
+
 **MAILJET.MAILFROM** - A string containing the email of a an approved mailjet email.
+
 **MAILJET.MAILTO** - An array of objects of contacts with Name and Email values
+
 **MAILJET.PUBKEY** - The mailjet public key
+
 **MAILJET.SECRET** - The mailjet secret
-**CRON** - A cron string structured as: **"0 0 0 * * \*"**
 
-The cron job requires a [cron](https://github.com/merencia/node-cron) job like:
-
-**"0 0 0 * * \*"**
+**CRON** - A [node-cron](https://github.com/merencia/node-cron) string structured as: 0 0 0 * * *
 
 *( this example runs every day at midnight )*
+
+
 
 The application uses [npm run script](https://docs.npmjs.com/cli/run-script) functionality, meaning that to start the application daemonized run:
 
