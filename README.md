@@ -4,6 +4,13 @@ SQL dump auto mailer for Linux.
 ## Requirements
 A mailjet account.
 
+## Installation
+```
+git clone https://github.com/null4bl3/sqldumper
+cd sqldumper
+npm install
+```
+
 ## Configuration
 This project needs a file called "config.json" in the root of the project directory.
 
@@ -31,4 +38,20 @@ The config file should contain the following parameters:
   "CRON": ""
 }
 ```
-The cron job requires a cron job like: "0 0 0 * * \*" ( this runs every day at midnight )
+The cron job requires a cron job like:
+
+"0 0 0 * * \*"
+
+( this runs every day at midnight )
+
+The application uses npm run functionality, meaning that to start the application daemonized run:
+
+ ```
+npm run start
+ ```
+And to stop:
+
+
+ ```
+npm run stop
+ ```
