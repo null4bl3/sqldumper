@@ -11,14 +11,14 @@ console.log("SQLDUMPER INITIALISED !");
 console.log();
 
 cron.schedule(conf.CRON, () => {
-  const ls = spawn("./sql_dumper.sh", [
+  const run = spawn("./sql_dumper.sh", [
     conf.PROJECT,
     conf.DATABASE.DB,
     conf.DATABASE.USER,
     conf.DATABASE.PASS
   ]);
 
-  ls.stdout.on("data", (ok) => {
+  run.stdout.on("data", (ok) => {
     let data = ok.toString();
     console.log("SQL DUMP FILE: ", data);
     let _file = fs.readFileSync(process.cwd() + "/" + data.trim());
@@ -70,7 +70,7 @@ cron.schedule(conf.CRON, () => {
       });
   });
 
-  ls.stderr.on("data", (data) => {
+  run.stderr.on("data", (data) => {
     console.log("ERROR: ");
     console.log(data.toString());
   });
