@@ -38,13 +38,16 @@ The config file should contain the following parameters:
   "CRON": ""
 }
 ```
+*'MAILFROM' is in the form of an email string value *
+
+
 The cron job requires a [cron](https://github.com/merencia/node-cron) job like:
 
 **"0 0 0 * * \*"**
 
 *( this example runs every day at midnight )*
 
-The application uses npm run script functionality, meaning that to start the application daemonized run:
+The application uses [npm run script](https://docs.npmjs.com/cli/run-script) functionality, meaning that to start the application daemonized run:
 
  ```
 npm run start
