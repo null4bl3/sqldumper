@@ -43,6 +43,7 @@ The config file should contain the following parameters:
 *"MAILFROM" is in the form of an email string value*
 
 **PROJECT** - The project name. Used for file naming.
+
 **DATABASE.DB** - The database to create a dump from
 **DATABASE.USER** - The database user
 **DATABASE.PASS** - The database password
