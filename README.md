@@ -4,7 +4,7 @@ This project needs a file called "config.json" in the root of the project direct
 
 The config file should contain the following parameters:
 
-´´´
+```
 {
   "PROJECT": "",
   "DATABASE": {
@@ -25,4 +25,4 @@ The config file should contain the following parameters:
   },
   "CRON": ""
 }
-´´´
+```
