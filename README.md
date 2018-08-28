@@ -40,7 +40,6 @@ The config file should contain the following parameters:
   "CRON": ""
 }
 ```
-*"MAILFROM" is in the form of an email string value*
 
 **PROJECT** - The project name. Used for file naming.
 
