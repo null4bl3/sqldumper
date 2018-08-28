@@ -1,55 +1,77 @@
-const exec = require('child_process').exec;
-const util = require('util');
+const exec = require("child_process").exec;
+const spawn = require("child_process").spawn;
+const util = require("util");
 const fs = require("fs");
-const run = util.promisify(exec);
-const moment = require('moment');
-let cron = require('node-cron');
+const moment = require("moment");
+const conf = require("./config.json");
+let cron = require("node-cron");
 
-cron.schedule('0 0 0 * * *', function () {
-  run('./sql_dumper.sh')
-    .then((data) => {
-      console.log("SQL DUMP: ", data.stdout.trim());
-      let _file = fs.readFileSync(process.cwd() + "/" + data.stdout.trim());
-      let buffer = new Buffer(_file).toString('base64');
-      const mailjet = require('node-mailjet')
-        .connect("b99ece9f73ba590adf72fcd20ab592ff", "2e1a60418718eba9f98403cb684a1bd4")
-      const request = mailjet
-        .post("send", { 'version': 'v3.1' })
-        .request({
-          "Messages": [
+console.log();
+console.log("SQLDUMPER INITIALISED !");
+console.log();
+
+cron.schedule(conf.CRON, () => {
+  const ls = spawn("./sql_dumper.sh", [
+    conf.PROJECT,
+    conf.DATABASE.DB,
+    conf.DATABASE.USER,
+    conf.DATABASE.PASS
+  ]);
+
+  ls.stdout.on("data", (ok) => {
+    let data = ok.toString();
+    console.log("SQL DUMP FILE: ", data);
+    let _file = fs.readFileSync(process.cwd() + "/" + data.trim());
+    let buffer = new Buffer(_file).toString("base64");
+    const mailjet = require("node-mailjet").connect(
+      conf.MAILJET.PUBKEY,
+      conf.MAILJET.SECRET
+    );
+    const request = mailjet.post("send", { version: "v3.1" }).request({
+      Messages: [
+        {
+          From: {
+            Email: conf.MAILJET.MAILFROM,
+            Name: conf.PROJECT + " CRON MAIL"
+          },
+          To: conf.MAILJET.MAILTO,
+          Subject: moment().format("YYYY-MM-DD - HH:mm") + " - " + conf.PROJECT + " SQL DUMP!",
+          TextPart: "Todays SQL DUMP",
+          HTMLPart:
+            "<br><h3>SQL DUMP from today: <br> " +
+            moment().format("YYYY/MM/DD - HH:mm") +
+            "</h3><br><br><br><br>",
+          Attachments: [
             {
-              "From": {
-                "Email": "msn@proreact.dk",
-                "Name": "The LEGO Brick"
-              },
-              "To": [
-                {
-                  "Email": "msn@proreact.dk",
-                  "Name": "Martin"
-                }
-              ],
-              "Subject": moment().format("YYYY-MM-DD - HH:mm") + " - LEGO SQL DUMP!",
-              "TextPart": "Todays SQL DUMP",
-              "HTMLPart": "<h3>Todays SQL DUMP!</h3><br /> !",
-              "Attachments": [
-                {
-                  "ContentType": "text/plain",
-                  "Filename": data.stdout,
-                  "Base64Content": buffer
-                }
-              ]
+              ContentType: "text/plain",
+              Filename: data,
+              Base64Content: buffer
             }
           ]
-        });
-      return request
-    })
-    .catch((e) => {
-      console.log("MAILJET: ", e);
-    })
-    .then((res) => {
-      console.log("MAILJET SEND. SHOULD BE SUCCESSFUL");
-    })
-    .catch((e) => {
-      console.log(e);
+        }
+      ]
     });
+    request
+      .then((res) => {
+        if (
+          res &&
+          res.body &&
+          res.body.Messages[0].Status &&
+          res.body.Messages[0].Status === "success"
+        ) {
+          console.log("SQL DUMP SEND");
+        } else {
+          console.log("SQL DUMP FAILED!");
+        }
+      })
+      .catch((e) => {
+        console.log("MAILJET ERROR:");
+        console.log(e);
+      });
+  });
+
+  ls.stderr.on("data", (data) => {
+    console.log("ERROR: ");
+    console.log(data.toString());
+  });
 });
