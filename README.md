@@ -58,6 +58,7 @@ The config file should contain the following parameters:
 **MAILJET.SECRET** - The mailjet secret
 
 **CRON** - A [node-cron](https://github.com/merencia/node-cron) string structured as: 0 0 0 * * *
+
 *( this example runs every day at midnight )*
 
 
