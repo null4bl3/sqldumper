@@ -1,5 +1,6 @@
 # SQLDUMPER
-SQL dump auto mailer for Linux.
+SQL dump auto mailer for Linux using node.js and bash.
+The script runs on a system using [node-cron](https://github.com/merencia/node-cron) to trigger a bash script in a node.js child_process, that creates a MySQL dump of a database and mails the file to an email of your choice.
 
 ## Requirements
 A [mailjet](https://www.mailjet.com/) account.
