@@ -1,0 +1,16 @@
+{
+  "name": "sqldumper",
+  "version": "1.0.0",
+  "description": "Scripted SQL dump and send module",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "null4bl3",
+  "license": "ISC",
+  "dependencies": {
+    "moment": "^2.22.2",
+    "node-cron": "^1.2.1",
+    "node-mailjet": "^3.2.1"
+  }
+}
