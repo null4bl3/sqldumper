@@ -4,11 +4,14 @@
   "description": "Scripted SQL dump and send module",
   "main": "app.js",
   "scripts": {
+    "start": "node_modules/.bin/forever start app.js",
+    "stop": "node_modules/.bin/forever stop app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "null4bl3",
   "license": "ISC",
   "dependencies": {
+    "forever": "^0.15.3",
     "moment": "^2.22.2",
     "node-cron": "^1.2.1",
     "node-mailjet": "^3.2.1"

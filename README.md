@@ -1,4 +1,4 @@
-## SQLDUMPER
+# SQLDUMPER
 
 This project needs a file called "config.json" in the root of the project directory.
 
