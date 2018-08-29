@@ -51,7 +51,7 @@ The config file should contain the following parameters:
 
 **MAILJET.MAILFROM** - A string containing the email of a an approved mailjet email.
 
-**MAILJET.MAILTO** - An array of objects of contacts with Name and Email values
+**MAILJET.MAILTO** - An array of objects of recipients contacts with Name and Email values
 
 **MAILJET.PUBKEY** - The mailjet public key
 
